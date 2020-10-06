@@ -20,7 +20,7 @@ public class MathController {
         return "The number " + num2 + " minus " + num1 + " equals " + (num2 - num1) + ".";
     }
 
-    @GetMapping("/mulitply/{num1}/and/{num2}")
+    @GetMapping("/multiply/{num1}/and/{num2}")
     @ResponseBody
     public String multiply(@PathVariable int num1, @PathVariable int num2) {
         return "The number " + num1 + " times " + num2 + " equals " + (num1 * num2) + ".";

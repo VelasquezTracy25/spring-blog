@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<nav th:replace="partials :: head"/>
+<body>
+
+<nav th:replace="partials :: navbar"/>
+
+<nav th:replace="partials :: header"/>
+
+<h3 style="text-align: center">Select a number from 1 to 6.</h3>
+
+<div style="text-align: center">
+    <a href="/roll-dice/1"><strong>1</strong></a>
+    <a href="/roll-dice/2"><strong>2</strong></a>
+    <a href="/roll-dice/3"><strong>3</strong></a>
+    <a href="/roll-dice/4"><strong>4</strong></a>
+    <a href="/roll-dice/5"><strong>5</strong></a>
+    <a href="/roll-dice/6"><strong>6</strong></a>
+</div>
+<br>
+<table style="margin-left: auto; margin-right: auto; text-align: center;">
+    <tr>
+        <th>Your Guess</th>
+        <th></th>
+        <th>Dice Roll</th>
+    </tr>
+    <tr>
+        <td th:text="${guess}"></td>
+        <td></td>
+        <td th:text="${random}"></td>
+    </tr>
+</table>
+
+<!--<h3 style="text-align: center; color:red;" th:if="${!matchesRoll}">You guessed wrong.</h3>-->
+
+
+<div th:replace="partials :: footer"/>
+</body>
+</html>
