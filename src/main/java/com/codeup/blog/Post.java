@@ -18,13 +18,18 @@ public class Post {
     @Column(nullable = false)
     public String body;
 
+    public String date;
+    public String slug;
+
     public Post() {};
 
-    public Post(long id, String title, String description, String body) {
+    public Post(long id, String date, String title, String description, String body, String slug) {
         this.id = id;
+        this.date = date;
         this.title = title;
         this.description = description;
         this.body = body;
+        this.slug = slug;
     }
 
     public long getId() {
@@ -33,6 +38,14 @@ public class Post {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {
@@ -57,5 +70,13 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }
