@@ -15,23 +15,24 @@ class PostController {
         this.postDao = postDao;
     }
 
+    @GetMapping(path = "/posts/show/{id}")
+    public String getPostById(@PathVariable long id, Model model) {
+        Post post = postDao.getOne(id);
+        model.addAttribute("post", post);
+        return "/posts/show";
+    }
 
     //new way using dependency injection
-    @GetMapping("/posts/")
+    @GetMapping("/posts")
     public String index(Model model) {
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
     }
 
-    @GetMapping(path = "/posts/show/{id}")
-    public String getPostsById(@PathVariable long id, Model model) {
-        model.addAttribute("post", postDao.findById(id));
-        model.addAttribute("id", id);
-        return "/posts/show";
-    }
 
     @GetMapping(path = "/posts/create")
-    public String createPostForm() {
+    public String createPostForm(Model model) {
+    model.addAttribute("post", new Post());
         return "posts/editCreateForm";
     }
 
@@ -50,8 +51,9 @@ class PostController {
         post.setBody(body);
         post.setSlug(slug);
 
-        // save the post...
-        return "redirect:/posts/show/ + ${id}";
+        // save the post
+        postDao.save(post);
+        return "redirect:/posts/show/";
     }
 
     @GetMapping(path = "/posts/${id}/edit")
@@ -62,19 +64,20 @@ class PostController {
     }
 
     @PostMapping(path = "/posts/${id}/edit")
-    public String editPostById(@PathVariable long id, Model model) {
+    public String editPost(){
+
         return "redirect:/posts/show/ + ${id}";
     }
 
     @GetMapping(path = "/posts/${id}/delete")
-    public String deletePostForm(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
-
+    public String deletePostForm(@PathVariable long id) {
+        postDao.deleteById(id);
         return "posts/editCreateForm";
     }
 
     @PostMapping(path = "/posts/${id}/delete")
     public String deletePostById(@PathVariable long id, Model model) {
+        model.addAttribute("id", id);
         return "redirect:/delete-message";
 
     }
