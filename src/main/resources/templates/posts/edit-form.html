@@ -2,11 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${post.title}"></title>
+    <div th:replace="partials :: bootstrap-css"/>
 </head>
 <body>
-<form th:action="@{/posts/create}" th:method="post" th:object="${post}">
 
+<nav th:replace="partials :: navbar"/>
+<nav th:replace="partials :: header"/>
+
+<form th:action="@{/posts/edit}" th:method="post" th:object="${post}">
+    Date:
+    <input th:field="*{date}"/>
+    <br/>
     Title:
     <input th:field="*{title}"/>
     <br/>
@@ -18,5 +25,7 @@
     <br/>
     <input type="submit"/>
 </form>
+
+<div th:replace="partials :: footer"/>
 </body>
 </html>
