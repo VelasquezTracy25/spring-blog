@@ -71,7 +71,7 @@ public class User {
     }
 
     public String setPassword(String password) {
-        return this.password = password;
+        return this.passwaord = password;
     }
 
     public List<Post> getPosts() {
