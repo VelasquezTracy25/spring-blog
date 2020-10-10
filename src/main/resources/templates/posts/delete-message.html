@@ -2,19 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${post.title}"></title>
+    <title>Deletion success!</title>
     <div th:replace="partials :: bootstrap-css"/>
 </head>
 <body>
 
 <nav th:replace="partials :: navbar"/>
-
 <nav th:replace="partials :: header"/>
-    <div th:text="${post.title}"></div>
-<p>Created By: <em th:text="${user.email}"></em></p>
-    <div th:text="${post.body}"></div>
+<!--this will have a message that ______ post was deleted-->
 
+<!--buttons to redirect to to different places-->
 
-    <div th:replace="partials :: footer"/>
+<h3 style="text-align: center">Post #<strong th:text="${id}"></strong> has been deleted.</h3>
+
 </body>
 </html>

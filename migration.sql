@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS blog_db;
+DROP DATABASE IF EXISTS blog_db;
 
-CREATE USER 'blog_user'@'localhost' IDENTIFIED BY 'codeup';
-GRANT ALL ON blog_db.* TO blog_user@localhost;
+CREATE DATABASE IF NOT EXISTS blog_db;

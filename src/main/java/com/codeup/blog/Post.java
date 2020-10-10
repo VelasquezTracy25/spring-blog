@@ -10,16 +10,23 @@ public class Post {
     private long id;
 
     @Column(nullable = false, length = 500)
-    public String title;
+    private String title;
 
     @Column(nullable = false)
-    public String description;
+    private String description;
 
     @Column(nullable = false)
-    public String body;
+    private String body;
 
-    public String date;
-    public String slug;
+    @Column(nullable = false, length = 250)
+    private String date;
+
+    @Column(nullable = false, length = 250)
+    private String slug;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Post() {};
 
