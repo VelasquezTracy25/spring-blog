@@ -6,7 +6,6 @@ public class User {
     private String email;
     private String password;
 
-
     public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
@@ -45,4 +44,3 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-}

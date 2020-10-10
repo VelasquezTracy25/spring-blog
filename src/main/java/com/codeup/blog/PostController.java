@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 @Controller
 class PostController {
 
@@ -29,11 +27,10 @@ class PostController {
         return "posts/index";
     }
 
-
     @GetMapping(path = "/posts/create")
     public String createPostForm(Model model) {
-    model.addAttribute("post", new Post());
-        return "posts/editCreateForm";
+        model.addAttribute("post", new Post());
+        return "/posts/create-form";
     }
 
     @PostMapping("/posts/create")
@@ -41,45 +38,51 @@ class PostController {
             @RequestParam(name = "date") String date,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description") String description,
-            @RequestParam(name = "body") String body,
-            @RequestParam(name = "slug") String slug
-    ) {
+            @RequestParam(name = "body") String body
+            ){
         Post post = new Post();
         post.setDate(date);
         post.setTitle(title);
         post.setDescription(description);
         post.setBody(body);
-        post.setSlug(slug);
-
         // save the post
         postDao.save(post);
-        return "redirect:/posts/show/";
+        return "redirect:/posts";
     }
 
-    @GetMapping(path = "/posts/${id}/edit")
+    @GetMapping(path = "/posts/{id}/edit(id=${id})")
     public String editPostForm(@PathVariable long id, Model model) {
+        Post post = postDao.getOne(id);
         model.addAttribute("id", id);
-        model.addAttribute("post", postDao.findById(id));
-        return "posts/editCreateForm";
+        model.addAttribute("post", post);
+        return "/posts/edit-form";
     }
 
-    @PostMapping(path = "/posts/${id}/edit")
-    public String editPost(){
-
-        return "redirect:/posts/show/ + ${id}";
+    @PostMapping(path = "/posts/edit/{id}")
+    public String editPost(
+            @PathVariable long id,
+            @RequestParam(name = "date") String date,
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "description") String description,
+            @RequestParam(name = "body") String body
+//            @RequestParam(name = "slug") String slug
+    ) {
+        Post post = postDao.getOne(id);
+        post.setDate(date);
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setBody(body);
+//        post.setSlug(slug);
+        // save the post
+        postDao.save(post);
+        return "redirect:/posts/show/ + {id}";
     }
 
-    @GetMapping(path = "/posts/${id}/delete")
-    public String deletePostForm(@PathVariable long id) {
-        postDao.deleteById(id);
-        return "posts/editCreateForm";
-    }
-
-    @PostMapping(path = "/posts/${id}/delete")
+    @GetMapping(path = "/posts/delete/{id}")
     public String deletePostById(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
-        return "redirect:/delete-message";
-
+            postDao.deleteById(id);
+            model.addAttribute("id", id);
+        return "/posts/delete-message";
     }
 
 }
