@@ -50,7 +50,7 @@ class PostController {
         return "redirect:/posts";
     }
 
-    @GetMapping(path = "/posts/{id}/edit(id=${id})")
+    @GetMapping(path = "/posts/edit/{id}")
     public String editPostForm(@PathVariable long id, Model model) {
         Post post = postDao.getOne(id);
         model.addAttribute("id", id);
@@ -58,7 +58,7 @@ class PostController {
         return "/posts/edit-form";
     }
 
-    @PostMapping(path = "/posts/edit/{id}")
+    @PostMapping(path = "/posts/edit/")
     public String editPost(
             @PathVariable long id,
             @RequestParam(name = "date") String date,
@@ -84,5 +84,4 @@ class PostController {
             model.addAttribute("id", id);
         return "/posts/delete-message";
     }
-
 }
