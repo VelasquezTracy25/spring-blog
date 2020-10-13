@@ -21,7 +21,7 @@
             </div>
             <div class="col-2 align-middle">
                 <a th:href="@{'/posts/' + ${post.slug}}">Read More</a>
-                <a th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
+                <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit</a>
                 <a th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
             </div>
 

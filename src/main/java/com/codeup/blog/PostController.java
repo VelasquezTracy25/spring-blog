@@ -30,7 +30,7 @@ class PostController {
     @GetMapping(path = "/posts/create")
     public String createPostForm(Model model) {
         model.addAttribute("post", new Post());
-        return "/posts/create-form";
+        return "/posts/create";
     }
 
     @PostMapping("/posts/create")
@@ -50,15 +50,15 @@ class PostController {
         return "redirect:/posts";
     }
 
-    @GetMapping(path = "/posts/edit/{id}")
+    @GetMapping(path = "/posts/{id}/edit")
     public String editPostForm(@PathVariable long id, Model model) {
         Post post = postDao.getOne(id);
         model.addAttribute("id", id);
         model.addAttribute("post", post);
-        return "/posts/edit-form";
+        return "/posts/edit";
     }
 
-    @PostMapping(path = "/posts/edit/")
+    @PostMapping(path = "/posts/{id}/edit")
     public String editPost(
             @PathVariable long id,
             @RequestParam(name = "date") String date,
@@ -75,7 +75,7 @@ class PostController {
 //        post.setSlug(slug);
         // save the post
         postDao.save(post);
-        return "redirect:/posts/show/ + {id}";
+        return "redirect:/posts";
     }
 
     @GetMapping(path = "/posts/delete/{id}")
