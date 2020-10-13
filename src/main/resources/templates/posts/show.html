@@ -10,9 +10,11 @@
 <nav th:replace="partials :: navbar"/>
 
 <nav th:replace="partials :: header"/>
-    <div th:text="${post.title}"></div>
-    <div th:text="${post.body}"></div>
+<div th:text="${post.title}"></div>
+<p>Created By: <em th:text="${user.email}"></em></p>
+<div th:text="${post.body}"></div>
 
-    <div th:replace="partials :: footer"/>
+
+<div th:replace="partials :: footer"/>
 </body>
 </html>

@@ -2,17 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Welcome to the Blog</title>
+    <title>Home</title>
     <div th:replace="partials :: bootstrap-css"/>
 </head>
-</head>
 <body>
-<nav th:replace="partials :: navbar"/>
 
-<h1>Welcome to the Blog</h1>
+<nav th:replace="partials :: navbar"/>
+<nav th:replace="partials :: header"/>
 
 <div>
-    <div class="card h-130 ml-4 mr-4" th:each="post : ${posts}">
+    <div class="card ml-4 mr-4" th:each="post : ${posts}">
         <div class="row col-12">
             <div class="col-2 align-middle" th:text="${post.date}"></div>
             <div class="col-8">
@@ -20,18 +19,14 @@
                 <div class="description" th:text="${post.description}"></div>
             </div>
             <div class="col-2 align-middle">
-                <h6><a th:href="@{'/posts/' + ${post.slug}}">Read More</a></h6>
-                <div class="d-flex ">
-                    <h6><a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit</a></h6>
-                    <h6> / </h6>
-                    <h6><a th:href="@{'/posts/delete/' + ${post.id}}">Delete</a></h6>
-                </div>
+                <a th:href="@{'/posts/' + ${post.slug}}">Read More</a>
+                <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit</a>
+                <a th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
             </div>
 
         </div>
     </div>
 </div>
-
 
 <div th:replace="partials :: footer"/>
 </body>

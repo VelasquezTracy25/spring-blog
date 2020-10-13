@@ -8,15 +8,22 @@ import org.springframework.web.bind.annotation.*;
 class PostController {
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
+    private final EmailService emailService;
 
-    PostController(PostRepository postDao) {
+    PostController(PostRepository postDao, UserRepository userDao, EmailService emailService) {
         this.postDao = postDao;
+        this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @GetMapping(path = "/posts/show/{id}")
     public String getPostById(@PathVariable long id, Model model) {
         Post post = postDao.getOne(id);
+        User user = userDao.getOne(1L);
         model.addAttribute("post", post);
+        model.addAttribute("user", user);
+        model.addAttribute("email", user.getEmail());
         return "/posts/show";
     }
 
@@ -30,6 +37,7 @@ class PostController {
     @GetMapping(path = "/posts/create")
     public String createPostForm(Model model) {
         model.addAttribute("post", new Post());
+        model.addAttribute("user", userDao.getOne(1L));
         return "/posts/create";
     }
 
@@ -38,15 +46,18 @@ class PostController {
             @RequestParam(name = "date") String date,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description") String description,
-            @RequestParam(name = "body") String body
-            ){
+            @RequestParam(name = "body") String body,
+            String slug
+    ) {
         Post post = new Post();
         post.setDate(date);
         post.setTitle(title);
         post.setDescription(description);
         post.setBody(body);
+        post.setSlug("#");
         // save the post
         postDao.save(post);
+        emailService.prepareAndSend(post, ("New Post Created: " + post.title), post.description);
         return "redirect:/posts";
     }
 
@@ -75,13 +86,14 @@ class PostController {
 //        post.setSlug(slug);
         // save the post
         postDao.save(post);
-        return "redirect:/posts";
+        emailService.prepareAndSend(post, ("Post Edited: " + post.title), post.body);
+        return "redirect:/posts/show/ + {id}";
     }
 
     @GetMapping(path = "/posts/delete/{id}")
     public String deletePostById(@PathVariable long id, Model model) {
-            postDao.deleteById(id);
-            model.addAttribute("id", id);
+        postDao.deleteById(id);
+        model.addAttribute("id", id);
         return "/posts/delete-message";
     }
 }

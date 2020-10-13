@@ -11,19 +11,21 @@
 <nav th:replace="partials :: header"/>
 
 <form th:action="@{'/posts/' + ${post.id} + '/edit'}" th:method="post" th:object="${post}">
+    <div class="form-group">
     Date:
-    <input th:field="*{date}"/>
+    <input class="form-control" th:field="*{date}"/>
     <br/>
     Title:
-    <input th:field="*{title}"/>
+    <input class="form-control" th:field="*{title}"/>
     <br/>
     Description:
-    <input th:field="*{description}"/>
+    <input class="form-control" th:field="*{description}"/>
     <br/>
     Body:
-    <textarea th:field="*{body}" cols="72" rows="5"></textarea>
+    <textarea class="form-control" th:field="*{body}" cols="72" rows="5"></textarea>
     <br/>
     <input type="submit"/>
+    </div>
 </form>
 
 <div th:replace="partials :: footer"/>
