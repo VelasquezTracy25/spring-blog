@@ -18,6 +18,10 @@ public class Post {
     @Column(nullable = false)
     public String body;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
     public String date;
     public String slug;
 
