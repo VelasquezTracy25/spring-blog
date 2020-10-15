@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.hidden;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,16 +13,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 500, unique = true)
+    @Column(nullable = false, length = 200, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 500, unique = true)
+    @Column(nullable = false, length = 200, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, length = 200)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Post> posts;
 
 

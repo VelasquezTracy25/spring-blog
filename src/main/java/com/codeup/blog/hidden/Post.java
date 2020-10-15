@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.hidden;
 
 import javax.persistence.*;
 
@@ -15,25 +15,26 @@ public class Post {
     @Column(nullable = false)
     public String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     public String body;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @JoinColumn(name="owner_id")
+    private User owner;
 
     public String date;
     public String slug;
 
     public Post() {};
 
-    public Post(long id, String date, String title, String description, String body, String slug) {
+    public Post(long id, String date, String title, String description, String body, String slug, User owner) {
         this.id = id;
         this.date = date;
         this.title = title;
         this.description = description;
         this.body = body;
         this.slug = slug;
+        this.owner = owner;
     }
 
     public long getId() {
@@ -82,5 +83,13 @@ public class Post {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
