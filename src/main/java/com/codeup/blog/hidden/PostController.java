@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.hidden;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,15 +49,17 @@ class PostController {
             @RequestParam(name = "body") String body,
             String slug
     ) {
+        User user = userDao.getOne(1L); // just use the first user in the db
         Post post = new Post();
         post.setDate(date);
         post.setTitle(title);
         post.setDescription(description);
         post.setBody(body);
         post.setSlug("#");
+        post.setOwner(user);
         // save the post
         postDao.save(post);
-        emailService.prepareAndSend(post, ("New Post Created: " + post.title), post.description);
+        emailService.prepareAndSendPost(post, "New Post Created: " + post.title, post.body);
         return "redirect:/posts";
     }
 
@@ -83,17 +85,19 @@ class PostController {
         post.setTitle(title);
         post.setDescription(description);
         post.setBody(body);
+//        post.setOwner(userDao.getOne(1L));
 //        post.setSlug(slug);
-        // save the post
         postDao.save(post);
-        emailService.prepareAndSend(post, ("Post Edited: " + post.title), post.body);
+        emailService.prepareAndSendPost(post, ("Post Edited: " + title), description);
         return "redirect:/posts/show/ + {id}";
     }
 
     @GetMapping(path = "/posts/delete/{id}")
-    public String deletePostById(@PathVariable long id, Model model) {
+    public String deletePostById(@PathVariable long id, Model model, Post post) {
         postDao.deleteById(id);
+//        post.setOwner(userDao.getOne(1L));
         model.addAttribute("id", id);
+        emailService.prepareAndSendPost(post, ("Post Deleted: " + post.title), post.description);
         return "/posts/delete-message";
     }
 }

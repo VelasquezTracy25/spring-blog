@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.hidden;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

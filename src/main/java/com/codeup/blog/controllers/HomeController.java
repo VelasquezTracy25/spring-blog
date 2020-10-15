@@ -1,5 +1,6 @@
-package com.codeup.blog;
+package com.codeup.blog.controllers;
 
+import com.codeup.blog.hidden.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,7 @@ public class HomeController {
 
     private final PostRepository postDao;
 
-    public HomeController(PostRepository postDao) {
+    private HomeController(PostRepository postDao) {
         this.postDao = postDao;
     }
 
