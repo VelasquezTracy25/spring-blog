@@ -1,33 +1,78 @@
 package com.codeup.blog.controllers;
 
+import com.codeup.blog.models.Post;
+import com.codeup.blog.models.User;
+import com.codeup.blog.repositories.PostRepository;
+import com.codeup.blog.repositories.UserRepository;
+import com.codeup.blog.services.EmailService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-public class PostController {
+@Controller
+class PostController {
 
-    @Controller
-    class HelloController {
+    private final PostRepository postDao;
+    private final UserRepository userDao;
+    private final EmailService emailService;
 
-        @GetMapping("/posts")
-        public String index() {
-            return "Return all posts";
-        }
+    PostController(PostRepository postDao, UserRepository userDao, EmailService emailService) {
+        this.postDao = postDao;
+        this.userDao = userDao;
+        this.emailService = emailService;
+    }
+    //new way using dependency injection
 
-        @GetMapping("/posts/{id}")
-        public String getPostById(@PathVariable long id) {
-            return "Hello from Spring!";
-        }
-
-        @GetMapping("/posts/create")
-        public String createPostForm() {
-            return "Hello from Spring!";
-        }
-
-        @PostMapping("/posts/create")
-        public String createPost(){
-            return "!";
-        }
+    @GetMapping("/posts")
+    public String index(Model model) {
+        model.addAttribute("posts", postDao.findAll());
+        return "/posts/index";
     }
 
+    @GetMapping("/posts/show/{id}")
+    public String getPostById(@PathVariable long id, Model model) {
+        model.addAttribute("post", postDao.getOne(id));
+        model.addAttribute("user", userDao.getOne(1L));
+        model.addAttribute("email", userDao.getOne(1L).getEmail());
+        return "/posts/show";
+    }
 
+    @GetMapping(path = "/posts/create")
+    public String createPostForm(Model model) {
+        model.addAttribute("post", new Post());
+        model.addAttribute("user", userDao.getOne(1L));
+        return "/posts/create";
+    }
+
+    @PostMapping("/posts/create")
+    public String createPost(@ModelAttribute Post post) {
+        postDao.save(post);
+//        emailService.prepareAndSendPost(post, "New Post Created: " + post.title, post.body);
+        return "redirect:/posts";
+    }
+
+    @GetMapping(path = "/posts/{id}/edit")
+    public String editPostForm(@PathVariable long id, Model model) {
+        Post post = postDao.getOne(id);
+        model.addAttribute("id", id);
+        model.addAttribute("post", post);
+        return "/posts/edit";
+    }
+
+    @PostMapping(path = "/posts/{id}/edit")
+    public String editPost(@PathVariable long id, Model model
+    ) {
+        Post post = postDao.getOne(id);
+        model.addAttribute("post",post);
+        postDao.save(post);
+//        emailService.prepareAndSendPost(post, ("Post Edited: " + title), description);
+        return "redirect:/posts/show/ + {id}";
+    }
+
+    @GetMapping(path = "/posts/delete/{id}")
+    public String deletePostById(@PathVariable long id) {
+        postDao.deleteById(id);
+//        emailService.prepareAndSendPost(post, ("Post Deleted: " + post.title), post.description);
+        return "/posts/delete-message";
+    }
 }

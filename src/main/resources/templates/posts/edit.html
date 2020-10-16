@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${post.title}"></title>
+    <title></title>
     <div th:replace="partials :: bootstrap-css"/>
 </head>
 <body>
@@ -10,7 +10,7 @@
 <nav th:replace="partials :: navbar"/>
 <nav th:replace="partials :: header"/>
 
-<form th:action="@{'/posts/' + ${post.id} + '/edit'}" th:method="post" th:object="${post}">
+<form th:action="@{'/edit-create'}" th:method="post" th:object="${post}">
     <div class="form-group">
     Date:
     <input class="form-control" th:field="*{date}"/>
