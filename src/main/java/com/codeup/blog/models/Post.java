@@ -9,7 +9,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (nullable = false, length = 250)
+    @Column (nullable = false, length = 250, unique = true)
     private String date;
 
     @Column (nullable = false, length = 250, unique = true)
@@ -21,10 +21,13 @@ public class Post {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String body;
 
+    @Column()
+    private String slug;
+
+
     @ManyToOne
     @JoinColumn(name="owner_id")
     private User owner;
-    private String slug;
 
     public Post(long id, String date, String title, String description, String body, User owner, String slug) {
         this.id = id;

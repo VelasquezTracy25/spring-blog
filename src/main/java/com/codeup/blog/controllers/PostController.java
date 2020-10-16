@@ -77,4 +77,5 @@ class PostController {
         emailService.prepareAndSendPost(post, ("Post Deleted: " + post.getTitle()), post.getBody());
         return "/posts/delete-message";
     }
+
 }
