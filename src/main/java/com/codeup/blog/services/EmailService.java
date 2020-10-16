@@ -19,8 +19,8 @@ public class EmailService {
     public void prepareAndSendPost(Post post, String subject, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
-//        msg.setTo(post.getOwner().getEmail());
-        msg.setTo("tracyvelasquez@outlook.com");
+        msg.setTo(post.getOwner().getEmail());
+//        msg.setTo("tracyvelasquez@outlook.com");
         msg.setSubject(subject);
         msg.setText(body);
 

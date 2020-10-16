@@ -1,7 +1,6 @@
 package com.codeup.blog.controllers;
 
 import com.codeup.blog.models.Post;
-import com.codeup.blog.models.User;
 import com.codeup.blog.repositories.PostRepository;
 import com.codeup.blog.repositories.UserRepository;
 import com.codeup.blog.services.EmailService;
@@ -21,8 +20,8 @@ class PostController {
         this.userDao = userDao;
         this.emailService = emailService;
     }
-    //new way using dependency injection
 
+    //new way using dependency injection
     @GetMapping("/posts")
     public String index(Model model) {
         model.addAttribute("posts", postDao.findAll());
@@ -46,8 +45,9 @@ class PostController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
+        post.setOwner(userDao.findAll().get(0));
         postDao.save(post);
-//        emailService.prepareAndSendPost(post, "New Post Created: " + post.title, post.body);
+        emailService.prepareAndSendPost(post, "New Post Created: " + post.getTitle(), post.getBody());
         return "redirect:/posts";
     }
 
@@ -65,14 +65,16 @@ class PostController {
         Post post = postDao.getOne(id);
         model.addAttribute("post",post);
         postDao.save(post);
-//        emailService.prepareAndSendPost(post, ("Post Edited: " + title), description);
+        emailService.prepareAndSendPost(post, ("Post Edited: " + post.getTitle()), post.getDescription());
         return "redirect:/posts/show/ + {id}";
     }
 
     @GetMapping(path = "/posts/delete/{id}")
     public String deletePostById(@PathVariable long id) {
+        Post post = postDao.getOne(id);
+        post.setOwner(postDao.getOne(id).getOwner());
         postDao.deleteById(id);
-//        emailService.prepareAndSendPost(post, ("Post Deleted: " + post.title), post.description);
+        emailService.prepareAndSendPost(post, ("Post Deleted: " + post.getTitle()), post.getBody());
         return "/posts/delete-message";
     }
 }

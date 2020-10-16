@@ -9,7 +9,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (nullable = false, length = 250, unique = true)
+    @Column (nullable = false, length = 250)
     private String date;
 
     @Column (nullable = false, length = 250, unique = true)
