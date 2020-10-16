@@ -10,24 +10,17 @@
 <nav th:replace="partials :: navbar"/>
 <nav th:replace="partials :: header"/>
 
-<div>
-    <div class="card ml-4 mr-4" th:each="post : ${posts}">
-        <div class="row col-12">
-            <div class="col-2 align-middle" th:text="${post.date}"></div>
-            <div class="col-8">
-                <div class="title font-weight-bold" th:text="${post.title}"></div>
-                <div class="description" th:text="${post.description}"></div>
-            </div>
-            <div class="col-2 align-middle">
-                <a th:href="@{'/posts/' + ${post.slug}}">Read More</a>
-                <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit</a>
-                <a th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
-            </div>
-
+<h2>Latest Blogs</h2>
+<div class="d-flex row">
+    <div class="col-4" th:each="post : ${posts}">
+        <div class="card m-4" style="width: 20rem; height: 26rem;">
+            <img class="card-img-top" src="../static/img/1.jpg" alt="Card image cap">
+            <div class="title font-weight-bold text-center" th:text="${post.title}"></div>
+            <div class="description text-center" th:text="${post.description}"></div>
+            <a class="text-center" th:href="@{'/posts/' + ${post.slug}}">Read More</a>
         </div>
     </div>
 </div>
-
 <div th:replace="partials :: footer"/>
 </body>
 </html>

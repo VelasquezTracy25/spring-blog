@@ -21,6 +21,9 @@ public class Post {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String body;
 
+    @Column (nullable = false, length = 500)
+    private String image;
+
     @Column()
     private String slug;
 
@@ -29,12 +32,13 @@ public class Post {
     @JoinColumn(name="owner_id")
     private User owner;
 
-    public Post(long id, String date, String title, String description, String body, User owner, String slug) {
+    public Post(long id, String date, String title, String description, String body, String image, User owner, String slug) {
         this.id = id;
         this.date = date;
         this.title = title;
         this.description = description;
         this.body = body;
+        this.image = image;
         this.owner = owner;
         this.slug = slug;
     }
@@ -79,6 +83,14 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public User getOwner() {
